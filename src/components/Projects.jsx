@@ -8,7 +8,7 @@ const Projects = () => {
       title: "CodEx — Coding Platform",
       description: "Full-stack LeetCode-style platform featuring real-time code execution, test case evaluation, live contest leaderboards, and an AI assistant for dynamic hints.",
       techStack: ["React", "Node.js", "Express", "MongoDB", "WebSockets", "JWT", "AI APIs"],
-      github: "https://github.com/AbhishekSingh",
+      github: "https://github.com/abhishekkumarsingh2824/CodEx",
       demo: "#",
       featured: true
     },
@@ -16,14 +16,14 @@ const Projects = () => {
       title: "AspireX — Mentorship Platform",
       description: "A comprehensive platform connecting students with mentors, including a scheduling system, user management, and personalized learning paths.",
       techStack: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
-      github: "https://github.com/AbhishekSingh",
-      demo: "#"
+      github: "https://aspire-x.vercel.app/",
+      demo: "https://aspire-x.vercel.app/"
     },
     {
       title: "MiniGit — Version Control System",
       description: "A Git-like version control system built with tree-based structures and hashing to support commits, branching, and repository history.",
       techStack: ["C++", "Java", "Data Structures"],
-      github: "https://github.com/AbhishekSingh",
+      github: "https://github.com/abhishekkumarsingh2824/MiniGit",
       demo: "#"
     }
   ];

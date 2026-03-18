@@ -69,10 +69,10 @@ const Hero = () => {
 
           <div className="flex items-center gap-6 mt-8 pt-6 border-t border-gray-800/60 w-full justify-center md:justify-start">
             <span className="text-gray-500 font-medium">Connect on:</span>
-            <a href="https://github.com/AbhishekSingh" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+            <a href="https://github.com/abhishekkumarsingh2824" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
               <FaGithub size={24} />
             </a>
-            <a href="https://linkedin.com/in/AbhishekSingh" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors transform hover:scale-110">
+            <a href="https://www.linkedin.com/in/abhishekksingh01/" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors transform hover:scale-110">
               <FaLinkedin size={24} />
             </a>
           </div>
