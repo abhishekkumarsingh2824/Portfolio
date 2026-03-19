@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -32,8 +32,7 @@ export default async function handler(req, res) {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.response);
+    await transporter.sendMail(mailOptions);
     return res.status(200).json({ message: 'Message sent successfully!' });
   } catch (error) {
     console.error('SMTP Error:', error.message);
