@@ -1,99 +1,85 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Typewriter } from 'react-simple-typewriter';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Hero = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20">
-      <div className="flex flex-col md:flex-row items-center justify-between w-full h-full gap-12">
-        
-        {/* Text Content */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-6"
+    <section 
+      id="home" 
+      className="flex flex-col items-center justify-center min-h-[90vh] text-center px-6 pt-20 relative overflow-hidden"
+    >
+      {/* Subtle Heading Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-5xl w-full"
+      >
+        <motion.h1 
+          variants={itemVariants}
+          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8"
         >
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-1.5 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 font-medium text-sm mb-2"
+          <span className="text-gradient">
+            Hi, I'm Abhishek Singh
+          </span>
+        </motion.h1>
+
+        <motion.p 
+          variants={itemVariants}
+          className="text-xl md:text-3xl text-[#a1a1aa] mb-6 font-medium tracking-tight"
+        >
+          Full Stack Developer
+        </motion.p>
+
+        <motion.div 
+          variants={itemVariants}
+          className="text-[#71717a] text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+        >
+          I build scalable, high-performance web applications with a focus on precision and minimalist design.
+        </motion.div>
+
+        <motion.div 
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+        >
+          <a 
+            href="#projects" 
+            className="w-full sm:w-auto bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-[#f4f4f5] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
-            MERN Stack Developer
-          </motion.div>
-          
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
-            Hi, I'm <br className="hidden md:block" />
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-              Abhishek Singh
-            </span>
-          </h1>
-
-          <div className="h-16 md:h-12 text-xl md:text-2xl font-light text-gray-400 max-w-2xl">
-            <Typewriter
-              words={[
-                'I build scalable web applications.',
-                'I create high-performance systems.',
-                'I craft modern, interactive UIs.',
-              ]}
-              loop={true}
-              cursor
-              cursorStyle="_"
-              typeSpeed={70}
-              deleteSpeed={50}
-              delaySpeed={2000}
-            />
-          </div>
-
-          <p className="text-gray-400 max-w-lg mt-2 text-base md:text-lg">
-            "I build scalable, high-performance web applications with real-time capabilities and intelligent features."
-          </p>
-
-          <div className="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
-            <a 
-              href="#projects" 
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all hover:-translate-y-1"
-            >
-              View Projects
-            </a>
-            <a 
-              href="/resume.pdf" 
-              target="_blank"
-              className="px-8 py-3.5 rounded-full bg-[#161b22] border border-gray-700 text-white font-medium hover:bg-gray-800 transition-all hover:-translate-y-1"
-            >
-              Download Resume
-            </a>
-          </div>
-
-          <div className="flex items-center gap-6 mt-8 pt-6 border-t border-gray-800/60 w-full justify-center md:justify-start">
-            <span className="text-gray-500 font-medium">Connect on:</span>
-            <a href="https://github.com/abhishekkumarsingh2824" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
-              <FaGithub size={24} />
-            </a>
-            <a href="https://www.linkedin.com/in/abhishekksingh01/" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors transform hover:scale-110">
-              <FaLinkedin size={24} />
-            </a>
-          </div>
+            View Work
+          </a>
+          <a 
+            href="#contact" 
+            className="w-full sm:w-auto bg-transparent border border-white/10 text-white px-12 py-4 rounded-full font-bold hover:bg-white/5 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            Contact Me
+          </a>
         </motion.div>
-
-        {/* Optional Graphic / Abstract Shape */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="flex-1 hidden lg:flex justify-center relative"
-        >
-          <div className="relative w-80 h-80 rounded-full bg-gradient-to-tr from-blue-600/20 to-purple-600/20 blur-3xl animate-pulse"></div>
-          <div className="absolute inset-0 flex items-center justify-center">
-             <div className="w-64 h-64 rounded-full border border-gray-700/50 backdrop-blur-sm bg-gray-900/40 shadow-2xl flex items-center justify-center animate-[spin_20s_linear_infinite]">
-                <div className="w-48 h-48 rounded-full border border-blue-500/30 rotate-45"></div>
-             </div>
-          </div>
-        </motion.div>
-
-      </div>
+      </motion.div>
     </section>
   );
 };

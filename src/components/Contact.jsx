@@ -1,146 +1,180 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
   const form = useRef();
   const [status, setStatus] = useState('');
 
-  const sendEmail = (e) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const sendEmail = async (e) => {
     e.preventDefault();
     setStatus('sending');
 
-    // Make sure to replace these with your actual EmailJS credentials
-    // emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-    setTimeout(() => {
-      setStatus('success');
-      form.current.reset();
+    const formData = new FormData(form.current);
+    const data = {
+      name: formData.get('user_name'),
+      email: formData.get('user_email'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        form.current.reset();
+        setTimeout(() => setStatus(''), 5000);
+      } else {
+        const errorData = await response.json();
+        console.error('Server error:', errorData.error);
+        setStatus('error');
+        setTimeout(() => setStatus(''), 5000);
+      }
+    } catch (error) {
+      console.error('Connection error (is the server running?):', error);
+      setStatus('error');
       setTimeout(() => setStatus(''), 5000);
-    }, 1500); // Simulated delay for demo
+    }
   };
 
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="absolute top-1/2 left-0 w-72 h-72 bg-blue-900/10 rounded-full blur-3xl -z-10 pointer-events-none transform -translate-y-1/2"></div>
-      
+    <section id="contact" className="py-24">
       <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            Get In Touch
-          </span>
-        </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
-      </motion.div>
-
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
-        
-        {/* Contact Info */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="space-y-8"
-        >
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-4">Let's Talk</h3>
-            <p className="text-gray-400 leading-relaxed">
-              Have a project in mind or just want to say hi? I'm currently open to new opportunities 
-              and collaborations. Feel free to reach out via the form or my personal email!
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#11161d] border border-gray-800 flex items-center justify-center text-blue-400">
-                <FaEnvelope size={20} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500 font-medium tracking-wide">EMAIL</p>
-                <a href="mailto:abhishek10988266@gmail.com" className="text-white hover:text-blue-400 transition-colors">
-                  abhishek10988266@gmail.com
-                </a>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#11161d] border border-gray-800 flex items-center justify-center text-green-400">
-                <FaMapMarkerAlt size={20} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500 font-medium tracking-wide">LOCATION</p>
-                <p className="text-white">India</p>
-              </div>
-            </div>
-          </div>
+        <motion.div variants={itemVariants} className="mb-20">
+          <h2 className="text-[10px] font-bold tracking-[0.2em] text-[#52525b] uppercase mb-4">Connection</h2>
+          <h3 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            Get in <span className="text-gradient">Touch</span>.
+          </h3>
         </motion.div>
 
-        {/* Contact Form */}
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <form ref={form} onSubmit={sendEmail} className="bg-[#11161d] border border-gray-800 p-8 rounded-3xl shadow-xl flex flex-col gap-6 relative">
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium ml-1">Your Name</label>
+        <div className="max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-20">
+          
+          <motion.div 
+            variants={itemVariants}
+            className="lg:col-span-12 space-y-12 mb-12"
+          >
+            <div>
+              <p className="text-[#a1a1aa] text-lg leading-relaxed max-w-2xl">
+                I'm currently specialized in building <span className="text-white font-medium">high-performance web systems</span>. Open to new opportunities and technical collaborations.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="group flex items-center gap-6">
+                <div className="w-12 h-12 rounded-2xl bg-[#0a0a0a] border border-white/5 flex items-center justify-center text-[#a1a1aa] group-hover:bg-white group-hover:text-black transition-all duration-500">
+                  <FaEnvelope size={18} />
+                </div>
+                <div>
+                  <p className="text-[10px] text-[#52525b] font-bold tracking-widest uppercase mb-1">Email</p>
+                  <a href="mailto:abhishek10988266@gmail.com" className="text-white font-medium hover:opacity-70 transition-opacity">
+                    abhishek10988266@gmail.com
+                  </a>
+                </div>
+              </div>
+              <div className="group flex items-center gap-6">
+                <div className="w-12 h-12 rounded-2xl bg-[#0a0a0a] border border-white/5 flex items-center justify-center text-[#a1a1aa] group-hover:bg-white group-hover:text-black transition-all duration-500">
+                  <FaMapMarkerAlt size={18} />
+                </div>
+                <div>
+                  <p className="text-[10px] text-[#52525b] font-bold tracking-widest uppercase mb-1">Based In</p>
+                  <p className="text-white font-medium">India</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            variants={itemVariants}
+            className="lg:col-span-12"
+          >
+            <form ref={form} onSubmit={sendEmail} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold text-[#52525b] uppercase tracking-widest ml-1">Your Name</label>
                 <input 
                   type="text" 
                   name="user_name" 
                   required 
-                  className="w-full bg-[#0d1117] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-600"
-                  placeholder="John Doe"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/20 transition-all placeholder:text-[#3f3f46]"
+                  placeholder="Name"
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400 font-medium ml-1">Your Email</label>
+              <div className="space-y-4">
+                <label className="text-[10px] font-bold text-[#52525b] uppercase tracking-widest ml-1">Your Email</label>
                 <input 
                   type="email" 
                   name="user_email" 
                   required 
-                  className="w-full bg-[#0d1117] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-600"
-                  placeholder="john@example.com"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/20 transition-all placeholder:text-[#3f3f46]"
+                  placeholder="Email"
                 />
               </div>
-            </div>
+              <div className="md:col-span-2 space-y-4">
+                <label className="text-[10px] font-bold text-[#52525b] uppercase tracking-widest ml-1">Message</label>
+                <textarea 
+                  name="message" 
+                  required 
+                  rows="6"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-white/20 transition-all placeholder:text-[#3f3f46] resize-none"
+                  placeholder="Tell me about your project..."
+                ></textarea>
+              </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm text-gray-400 font-medium ml-1">Message</label>
-              <textarea 
-                name="message" 
-                required 
-                rows="5"
-                className="w-full bg-[#0d1117] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-600 resize-none"
-                placeholder="How can I help you?"
-              ></textarea>
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={status === 'sending'}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-blue-500/25 mt-2"
-            >
-              {status === 'sending' ? 'Sending...' : 'Send Message'}
-            </button>
-
-            {status === 'success' && (
-              <p className="text-green-400 text-center font-medium mt-2 animate-pulse">
-                Message sent successfully!
-              </p>
-            )}
-          </form>
-        </motion.div>
-
-      </div>
+              <div className="md:col-span-2 mt-4 flex items-center gap-8">
+                <button 
+                  type="submit" 
+                  disabled={status === 'sending'}
+                  className="w-full sm:w-auto bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-[#f4f4f5] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === 'sending' ? 'Sending...' : 'Send Message'}
+                </button>
+                {status === 'success' && (
+                  <span className="text-white text-xs font-bold uppercase tracking-widest animate-pulse">
+                    Sent Successfully.
+                  </span>
+                )}
+                {status === 'error' && (
+                  <span className="text-red-500 text-xs font-bold uppercase tracking-widest animate-pulse">
+                    Error! Please try again.
+                  </span>
+                )}
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };

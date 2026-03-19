@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 
+import logo from '../assets/logo.png';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -16,54 +18,60 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0d1117]/80 backdrop-blur-md shadow-lg shadow-black/50 py-3' : 'bg-transparent py-5'}`}>
-      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
+    <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+      <div className="container mx-auto px-6 md:px-12 flex justify-between items-center max-w-7xl">
         <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex items-center gap-2"
         >
-          <a href="#home">Abhishek.</a>
+          <a href="#home" className="group flex items-center gap-3">
+             <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 group-hover:border-white/30 transition-all duration-500">
+               <img src={logo} alt="Logo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+             </div>
+             <span className="text-white text-[11px] font-bold uppercase tracking-widest hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity duration-500">Abhishek</span>
+          </a>
         </motion.div>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-12">
           {navLinks.map((link, index) => (
             <motion.a
               key={link.name}
               href={link.href}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-gray-300 hover:text-blue-400 transition-colors text-sm font-medium tracking-wide"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              className="text-[#a1a1aa] hover:text-white transition-all duration-300 text-[11px] font-bold uppercase tracking-[0.2em]"
             >
               {link.name}
             </motion.a>
           ))}
-          <motion.a 
+        </nav>
+
+        {/* Action Button */}
+        <div className="hidden md:block">
+           <a 
             href="/resume.pdf" 
-            target="_blank"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="px-5 py-2 rounded-full bg-blue-600/20 text-blue-400 border border-blue-500/50 hover:bg-blue-600 hover:text-white transition-all text-sm font-medium"
+            download="Abhishek_Singh_Resume.pdf"
+            className="text-white text-[10px] font-bold uppercase tracking-widest border border-white/10 px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-500"
           >
             Resume
-          </motion.a>
-        </nav>
+          </a>
+        </div>
 
         {/* Mobile Toggle */}
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-gray-300 hover:text-white transition-colors">
-            {isOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
+          <button onClick={() => setIsOpen(!isOpen)} className="text-[#a1a1aa] hover:text-white transition-colors">
+            {isOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
           </button>
         </div>
       </div>
@@ -71,27 +79,26 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <motion.div 
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-[#0d1117]/95 backdrop-blur-xl border-t border-gray-800"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden fixed top-0 left-0 w-full h-screen bg-black/95 backdrop-blur-2xl z-[-1] flex items-center justify-center"
         >
-          <div className="flex flex-col items-center py-6 gap-6">
+          <div className="flex flex-col items-center gap-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-gray-300 hover:text-blue-400 transition-colors text-lg font-medium"
+                className="text-2xl font-bold text-white tracking-tight hover:text-[#71717a] transition-all"
               >
                 {link.name}
               </a>
             ))}
             <a 
               href="/resume.pdf" 
-              target="_blank"
+              download="Abhishek_Singh_Resume.pdf"
               onClick={() => setIsOpen(false)}
-              className="px-6 py-2 rounded-full bg-blue-600 text-white font-medium mt-2"
+              className="text-white text-lg font-bold border border-white/20 px-10 py-3 rounded-full mt-6"
             >
               Resume
             </a>

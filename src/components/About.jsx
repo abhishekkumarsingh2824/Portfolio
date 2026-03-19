@@ -3,85 +3,67 @@ import { motion } from 'framer-motion';
 import { HiOutlineCode, HiOutlineLightBulb, HiOutlineBookOpen } from 'react-icons/hi';
 
 const About = () => {
-  const features = [
-    {
-      icon: <HiOutlineCode size={32} />,
-      title: "MERN Stack Expert",
-      desc: "Strong foundation in React, Node.js, Express, and MongoDB for full-stack apps."
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    {
-      icon: <HiOutlineLightBulb size={32} />,
-      title: "Problem Solver",
-      desc: "Passionate about DSA, system design, and building scalable backend architectures."
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
     },
-    {
-      icon: <HiOutlineBookOpen size={32} />,
-      title: "Continuous Learner",
-      desc: "Constantly exploring new technologies, from Generative AI to modern UI/UX design."
-    }
+  };
+
+  const points = [
+    { title: "Frontend", desc: "Crafting fluid, responsive interfaces with React and Framer Motion." },
+    { title: "Backend", desc: "Building robust, scalable architectures using Node.js and MongoDB." },
+    { title: "Systems", desc: "Optimizing for performance and solving complex algorithmic challenges." },
+    { title: "Design", desc: "Creating minimalist, user-centric experiences with a focus on details." }
   ];
 
   return (
-    <section id="about" className="py-24 relative">
-      <div className="absolute top-40 right-0 w-96 h-96 bg-blue-900/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
+    <section id="about" className="py-24">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
       >
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            About Me
-          </span>
-        </h2>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
-      </motion.div>
-
-      <div className="flex flex-col lg:flex-row gap-12 items-center">
-        
-        {/* Text Area */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="lg:w-1/2 space-y-6 text-gray-400 leading-relaxed text-lg"
-        >
-          <p>
-            Hello! I'm <strong className="text-white">Abhishek Singh</strong>, a passionate <strong className="text-blue-400">MERN Stack Developer</strong> dedicated to building high-performance, scalable, and secure web applications. 
-          </p>
-          <p>
-            I have a strong foundation in Data Structures and Algorithms (DSA), System Design, and full-stack development. Over the years, I've cultivated a deep problem-solving mindset by tackling complex logical challenges, having solved over 400+ problems on LeetCode and actively participating in competitive programming contests.
-          </p>
-          <p>
-            My goal is to craft digital products that offer not only intelligent backend architectures but also flawless, beautiful, and intuitive user experiences. When I'm not coding, I am learning about emerging technologies to stay ahead of the curve.
+        <motion.div variants={itemVariants} className="mb-16">
+          <h2 className="text-[10px] font-bold tracking-[0.2em] text-[#52525b] uppercase mb-4">Background</h2>
+          <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-8">
+            Engineering with <span className="text-gradient">Intent</span>.
+          </h3>
+          <p className="text-[#a1a1aa] text-lg leading-relaxed max-w-3xl">
+            I am a Full Stack Developer dedicated to building high-performance web applications. My approach combines technical rigor with a minimalist aesthetic, ensuring every line of code serves a clear purpose.
           </p>
         </motion.div>
 
-        {/* Highlight Cards */}
-        <div className="lg:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          {features.map((feature, index) => (
-            <motion.div 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {points.map((point, index) => (
+            <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className={`p-6 rounded-2xl bg-[#11161d] border border-gray-800 hover:border-blue-500/50 hover:bg-gradient-to-br from-[#11161d] to-[#1a2333] transition-all hover:-translate-y-1 shadow-lg ${index === 2 ? 'md:col-span-2' : ''}`}
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 hover:border-white/10 transition-all duration-300"
             >
-              <div className="text-blue-400 mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-              <p className="text-gray-400 text-sm">
-                {feature.desc}
-              </p>
+              <h4 className="text-white font-bold mb-3 tracking-tight">{point.title}</h4>
+              <p className="text-[#71717a] text-sm leading-relaxed">{point.desc}</p>
             </motion.div>
           ))}
         </div>
-
-      </div>
+      </motion.div>
     </section>
   );
 };
